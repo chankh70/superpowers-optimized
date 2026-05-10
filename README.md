@@ -1,6 +1,6 @@
 <div align="center">
 
-[![AI Coding Agents](https://img.shields.io/badge/USE_WITH-Claude_Code_%7C_Codex_%7C_OpenCode_%7C_Gemini_CLI_%7C_Antigravity-white?style=for-the-badge)]()
+[![AI Coding Agents](https://img.shields.io/badge/USE_WITH-Claude_Code-white?style=for-the-badge)]()
 
 [![GitHub stars](https://img.shields.io/github/stars/REPOZY/superpowers-optimized?style=for-the-badge&color=white)](https://github.com/REPOZY/superpowers-optimized/stargazers)
 [![Version](https://img.shields.io/github/v/release/REPOZY/superpowers-optimized?style=for-the-badge&color=white)](https://github.com/REPOZY/superpowers-optimized/releases)
@@ -25,7 +25,7 @@ Five research-backed principles run throughout: *less is more* (minimal always-o
 | Feature                  | Original Superpowers          | Superpowers Optimized                          | Real-world impact                  |
 |--------------------------|-------------------------------|------------------------------------------------|------------------------------------|
 | Workflow selection       | Manual                        | Automatic 3-tier (micro / lightweight / full)  | Zero overhead on simple tasks      |
-| Safety & hooks           | None                          | 10 proactive hooks overall, with platform-specific subsets on Codex/OpenCode | Strongest safety on Claude; partial hook parity on Codex/OpenCode |
+| Safety & hooks           | None                          | 10 proactive hooks                            | Strongest safety on Claude Code |
 | Security review          | None                          | Built into code review with OWASP checklist    | Security catches before merge      |
 | Adversarial red team     | None                          | Red team agent + auto-fix pipeline             | Finds bugs checklists miss, fixes them with TDD |
 | Error recovery           | None                          | Project-specific known-issues.md               | No rediscovering the same bug      |
@@ -43,10 +43,7 @@ Activate Superpowers Optimized and plan a secure user-authentication endpoint wi
 
 The agent will automatically route to the correct workflow, apply safety guards, and run an integrated security review during code review — no manual skill selection required.
 
-See [Installation](#installation) for install, update, and uninstall commands on all platforms.
-
-> [!NOTE]
-> **Codex parity boundary:** Claude Code gets the full 10-hook lifecycle. Codex now has verified live support for `SessionStart`, `UserPromptSubmit`, and `PreToolUse(Bash)` on macOS/Linux with `codex_hooks = true` and `codex-cli 0.118.0+` (tested on `0.118.0`). This repo now also ships a Codex-specific `PostToolUse(Bash)` smart-compress hook that can replace noisy Bash output after execution using the existing compression rules. `Stop` is implemented for Codex, but visible reminder surfacing should still be revalidated after install/update. Codex still does **not** expose Claude's `PostToolUse(Edit|Write|Skill)`, `SubagentStop`, `Read/Edit/Write` interception, or Claude's pre-execution Bash rewrite path, so full Claude parity is not possible today.
+See [Installation](#installation) for install, update, and uninstall commands.
 
 ---
 
@@ -403,7 +400,7 @@ With this stack, sessions start with full context and zero re-discovery overhead
 - **frontend-design** — Design intelligence system with industry-aware style selection, 25 UI styles, 30 product-category mappings, page structure patterns, UI state management, and 10 priority quality standards (accessibility, touch, performance, animation, forms, navigation, charts)
 
 ### Hooks (10 total)
-This is the full cross-platform hook inventory for the plugin. Claude Code gets the full set. Codex currently wires the smaller `SessionStart` / `UserPromptSubmit` / `PreToolUse(Bash)` / `PostToolUse(Bash)` / `Stop` subset through `hooks/codex/*`, subject to Codex platform limits.
+This is the full hook inventory for the plugin.
 
 - **context-engine** (SessionStart) — Runs git commands on every session start and writes `context-snapshot.json`: changed files, blast radius (which other files reference each changed file, filtered to actual import/require references), recent commits, and change stats. Uses per-project watermarks (md5 of cwd) so multiple projects don't interfere, and cross-session diff base so "what changed" reflects changes since your last session, not just the last commit. Zero dependencies. Silent no-op on non-git projects
 - **session-start** (SessionStart) — Injects using-superpowers routing into every session; injects `project-map.md` content directly if it exists (full content ≤200 lines, Critical Constraints + Hot Files only above that); checks for available plugin update
@@ -456,77 +453,17 @@ This is the full cross-platform hook inventory for the plugin. Claude Code gets 
 /plugin uninstall superpowers-optimized
 ```
 
----
-
-### Cursor
-
-**Install**
-```
-/plugin-add superpowers-optimized
-```
-
-**Update**
-```
-/plugin-update superpowers-optimized
-```
-
-**Uninstall**
-```
-/plugin-remove superpowers-optimized
-```
-
----
-
-### Codex
-
-Use the linked install doc as the single source of truth for the complete install/update flow on the current platform.
-
-For live Codex hooks, use `codex-cli 0.118.0` or newer. Older CLI builds may silently ignore the current `hooks.json` shape.
-
-**Install** — tell the agent:
-```
-Fetch and follow instructions from https://raw.githubusercontent.com/REPOZY/superpowers-optimized/refs/heads/main/.codex/INSTALL.md
-```
-
-**Update** — tell the agent:
-```
-Fetch and follow the update instructions from https://raw.githubusercontent.com/REPOZY/superpowers-optimized/refs/heads/main/.codex/INSTALL.md
-```
-
-Or manually: follow the `Updating` section in the linked install doc. A plain `git pull` is not always sufficient for a complete update.
-
-If the installed Codex copy looks stale, dirty, or inconsistent after update, use the `Clean reinstall fallback` in the linked install doc.
-
----
-
-### OpenCode
-
-**Install** — tell the agent:
-```
-Fetch and follow instructions from https://raw.githubusercontent.com/REPOZY/superpowers-optimized/refs/heads/main/.opencode/INSTALL.md
-```
-
-**Update** — tell the agent:
-```
-Fetch and follow the update instructions from https://raw.githubusercontent.com/REPOZY/superpowers-optimized/refs/heads/main/.opencode/INSTALL.md
-```
-
-Or manually: `git pull` in your local clone of the repository.
-
 
 ### Available Update Notification
 
-You will be **automatically notified** when a new version is available in Claude/Cursor.
+You will be **automatically notified** when a new version is available in Claude Code.
 
 ![](media/UpdatedAvailable.png)
 
-OpenCode, Codex, and Gemini CLI perform a best-effort startup update check once per 24 hours.
-
 Auto-update is non-destructive: it only applies when the plugin clone is clean and can fast-forward to `origin/main` (`git merge --ff-only origin/main`).
 If the repo is dirty, ahead, or diverged, auto-update is skipped and manual `git pull` remains the fallback.
-For Codex, SessionStart update notices require `codex_hooks = true`, `~/.codex/hooks.json` setup, `codex-cli 0.118.0+`, and a non-Windows environment.
 
-To disable startup auto-update checks for Codex/OpenCode/Gemini CLI:
+To disable startup auto-update checks:
 
 1. Set env var `SUPERPOWERS_AUTO_UPDATE=0`, or
 2. Create `~/.config/superpowers/update.conf` with:
@@ -568,7 +505,7 @@ Skills live directly in this repository. To contribute:
 3. Follow the existing skill structure in `skills/` (each skill has a `SKILL.md` with YAML frontmatter)
 4. Submit a PR
 
-**Modifying hooks:** Hook files (`hooks/hooks.json`, `hooks/codex-hooks.json`, `.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`) are generated — never edit them directly. Edit `plugin.universal.yaml` at the repo root, then run `hookbridge compile` to regenerate. See [hookbridge](https://github.com/REPOZY/Hookbridge) for the compiler tool.
+**Modifying hooks:** Hook files (`hooks/hooks.json`, `.claude-plugin/plugin.json`) are generated — never edit them directly. Edit `plugin.universal.yaml` at the repo root, then run `hookbridge compile` to regenerate. See [hookbridge](https://github.com/REPOZY/Hookbridge) for the compiler tool.
 
 
 ### License

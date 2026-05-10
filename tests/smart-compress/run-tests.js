@@ -391,11 +391,6 @@ console.log(b('\n10. HOOKS.JSON INTEGRATION'));
   assert('hooks.json: bash-compress-hook registered', hasCompress, true);
   assert('hooks.json: safety hooks fire BEFORE compression', safetyIdx !== -1 && safetyIdx < compressIdx, true); }
 
-{ const hooks = JSON.parse(fs.readFileSync(path.join(PLUGIN_ROOT, 'hooks/hooks-cursor.json'), 'utf8'));
-  const pre = hooks.hooks.preToolUse || [];
-  const has = pre.some(e => e.hooks && e.hooks.some(h => h.command && h.command.includes('bash-compress-hook')));
-  assert('hooks-cursor.json: bash-compress-hook registered', has, true); }
-
 { const hooks = JSON.parse(fs.readFileSync(path.join(PLUGIN_ROOT, 'hooks/hooks.json'), 'utf8'));
   const required = ['SessionStart','UserPromptSubmit','PostToolUse','Stop','SubagentStop','PreToolUse'];
   const allPresent = required.every(k => hooks.hooks[k]);

@@ -20,7 +20,7 @@
       "license": "MIT",
       "category": "productivity",
       "keywords": ["skills", "tdd", "debugging", "code-review", "workflows", "agentic", "token-efficiency", "hooks", "safety", "subagent"],
-      "tags": ["superpowers", "claude-code", "cursor", "codex", "agent-workflow"]
+      "tags": ["superpowers", "claude-code", "agent-workflow"]
     }
   ]
 }

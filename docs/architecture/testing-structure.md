@@ -47,13 +47,7 @@ tests/
 │       ├── design.md
 │       ├── plan.md
 │       └── scaffold.sh
-└── opencode/                             # OpenCode compatibility tests
-    ├── run-tests.sh                      # Test runner (--integration for slow)
-    ├── setup.sh
-    ├── test-plugin-loading.sh            # Plugin structure validation
-    ├── test-skills-core.sh               # skills-core.js library functions
-    ├── test-tools.sh                     # use_skill/find_skills (integration)
-    └── test-priority.sh                  # Skill priority resolution (integration)
+└── (per-feature tests)
 ```
 
 ## Running Tests
@@ -76,10 +70,6 @@ cd tests/explicit-skill-requests && ./run-all.sh
 # Full project execution tests
 cd tests/subagent-driven-dev && ./run-test.sh go-fractals
 cd tests/subagent-driven-dev && ./run-test.sh svelte-todo
-
-# OpenCode compatibility
-cd tests/opencode && ./run-tests.sh
-cd tests/opencode && ./run-tests.sh --integration
 ```
 
 ### Claude Code skill tests
@@ -152,20 +142,6 @@ Verifies that PreToolUse and PostToolUse safety hooks fire inside subagents, not
 ```bash
 cd tests/claude-code
 ./test-subagent-hook-scope.sh
-```
-
-### OpenCode tests
-
-Compatibility tests for the OpenCode plugin adapter.
-
-```bash
-cd tests/opencode
-
-# Structural tests (no OpenCode required)
-./run-tests.sh
-
-# Integration tests (requires OpenCode)
-./run-tests.sh --integration
 ```
 
 ## Token Analysis

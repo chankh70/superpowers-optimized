@@ -35,7 +35,7 @@ The `stop-reminders` hook fires at the end of every session and appends a minima
 ```markdown
 ## 2026-03-18 14:32 [auto]
 Skills: systematic-debugging (2x), test-driven-development
-Files: hooks/session-start, hooks/stop-reminders.js, tests/opencode/setup.sh
+Files: hooks/session-start, hooks/stop-reminders.js, lib/skills-core.js
 ```
 
 When you explicitly invoke the `context-management` skill mid-task, it writes a richer `[saved]` entry containing the goal, decisions made, approaches rejected, and open questions — structured for future recall.
@@ -99,7 +99,7 @@ hooks/hooks.json — Hook registration; uses \" quoting (not ') for variable exp
 .claude-plugin/plugin.json — Version field must stay in sync with all three manifests
 
 ## Critical Constraints
-- Version must match across plugin.json, cursor plugin.json, and marketplace.json
+- Version must match across plugin.json and marketplace.json
 - hooks.json requires escaped double quotes around ${CLAUDE_PLUGIN_ROOT} paths
 - Every SKILL.md must have YAML frontmatter with name and description fields
 

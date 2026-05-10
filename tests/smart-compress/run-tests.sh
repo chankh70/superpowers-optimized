@@ -531,14 +531,6 @@ result=$(node -e "
 assert "hooks.json: bash-compress-hook registered AFTER safety hooks" "$result" "ok"
 
 result=$(node -e "
-  const hooks = JSON.parse(require('fs').readFileSync('hooks/hooks-cursor.json','utf8'));
-  const pre = hooks.hooks.preToolUse || [];
-  const has = pre.some(e => e.hooks && e.hooks.some(h => h.command && h.command.includes('bash-compress-hook')));
-  console.log(has ? 'ok' : 'missing');
-")
-assert "hooks-cursor.json: bash-compress-hook registered" "$result" "ok"
-
-result=$(node -e "
   // Verify hooks.json is still valid JSON with correct structure
   const h = JSON.parse(require('fs').readFileSync('hooks/hooks.json','utf8'));
   const required = ['SessionStart','UserPromptSubmit','PostToolUse','Stop','SubagentStop','PreToolUse'];
