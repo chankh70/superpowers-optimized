@@ -14,6 +14,7 @@ Create an implementation plan another agent can execute with minimal ambiguity.
 ## Output Path
 
 Save to `docs/plans/YYYY-MM-DD-<feature-name>.md`.
+
 - User preferences for plan location override this default.
 
 ## Plan Header
@@ -24,9 +25,12 @@ Save to `docs/plans/YYYY-MM-DD-<feature-name>.md`.
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers-optimized:subagent-driven-development (recommended) or superpowers-optimized:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** <single sentence>
+**Problem Statement:** <Clearly articulate the user problem or opportunity. Focus on why this matters from a user and business perspective. 2–4 sentences max.>
+**Solution:** <High-level description of the solution without implementation details. 2–4 sentences max.>
+**User Stories:** <List the key user stories this plan addresses. Each should be a single sentence in the format "As a [user], I want [feature] so that [benefit].">
 **Architecture:** <2-4 sentences>
 **Tech Stack:** <languages/libraries/tools>
-**Assumptions:** <list the key assumptions this plan rests on. For each, state what it excludes: "Assumes X — will NOT work if Y."> *(skip only if the plan contains zero conditional logic)*
+**Assumptions:** <list the key assumptions this plan rests on. For each, state what it excludes: "Assumes X — will NOT work if Y."> _(skip only if the plan contains zero conditional logic)_
 
 ---
 ```
@@ -61,13 +65,14 @@ This structure informs the task decomposition. Each task should produce self-con
 ### Task N: <Name>
 
 **Files:**
+
 - Create: `<path>`
 - Modify: `<path>`
 - Test: `<path>`
 
-**Security flag:** `none` *(set to `security` if this task handles auth, credentials, input validation, permissions, crypto, or data access boundaries — triggers pre-implementation security review before the implementer is dispatched)*
+**Security flag:** `none` _(set to `security` if this task handles auth, credentials, input validation, permissions, crypto, or data access boundaries — triggers pre-implementation security review before the implementer is dispatched)_
 
-**Does NOT cover:** *(required when this task adds a condition, gate, trigger, or any "when X do Y" logic — state the scenarios the condition excludes. If an excluded scenario should be covered, revise this task before implementing.)*
+**Does NOT cover:** _(required when this task adds a condition, gate, trigger, or any "when X do Y" logic — state the scenarios the condition excludes. If an excluded scenario should be covered, revise this task before implementing.)_
 
 - [ ] **Step 1: Write failing test**
 
@@ -153,9 +158,11 @@ Plan saved to `docs/plans/<filename>.md`. Ready to execute with **[Subagent-Driv
 ### On User Reply
 
 **If Subagent-Driven:**
+
 - **REQUIRED SUB-SKILL:** Use superpowers-optimized:subagent-driven-development
 - Fresh subagent per task + two-stage review
 
 **If Inline Execution:**
+
 - **REQUIRED SUB-SKILL:** Use superpowers-optimized:executing-plans
 - Continuous execution with checkpoints for review
