@@ -5,8 +5,19 @@
   "author": {
     "name": "Jesse Vincent, forked by REPOZY"
   },
-  "homepage": "https://github.com/REPOZY/superpowers-optimized",
-  "repository": "https://github.com/REPOZY/superpowers-optimized",
+  "homepage": "https://github.com/chankh70/superpowers-optimized",
+  "repository": "https://github.com/chankh70/superpowers-optimized",
   "license": "MIT",
-  "keywords": ["skills", "tdd", "debugging", "code-review", "workflows", "agentic", "token-efficiency", "hooks", "safety", "subagent"]
+  "keywords": [
+    "skills",
+    "tdd",
+    "debugging",
+    "code-review",
+    "workflows",
+    "agentic",
+    "token-efficiency",
+    "hooks",
+    "safety",
+    "subagent"
+  ]
 }
