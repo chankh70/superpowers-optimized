@@ -65,6 +65,7 @@ digraph sdd_process {
 1. Read the plan once and extract all tasks.
 2. Create task tracking for all tasks.
 3. For each task:
+
 - Dispatch implementer subagent with full task text and minimal required context.
 - Resolve implementer questions before coding.
 - Require implementer verification evidence.
@@ -73,8 +74,9 @@ digraph sdd_process {
 - Run code-quality review.
 - If quality fails, return to implementer and re-review.
 - Mark task complete: update the task’s checkbox in plan.md from `- [ ]` to `- [x]`. If `state.md` exists with a plan status section, update it to reflect the completed task.
-   - For complex or high-risk tasks, validate the approach against requirements and consider simpler alternatives before or after the implementer’s work.
-   - For tasks centered on frontend/UI, apply `frontend-design` standards to guide structure, styling, and accessibility.
+  - For complex or high-risk tasks, validate the approach against requirements and consider simpler alternatives before or after the implementer’s work.
+  - For tasks centered on frontend/UI, apply `frontend-design` standards to guide structure, styling, and accessibility.
+
 4. Run final whole-branch review.
 5. Invoke `finishing-a-development-branch`.
 
@@ -104,6 +106,7 @@ Subagents are stateless — they do not know about processes started by previous
 Include in the subagent prompt for any E2E or service-dependent task:
 
 **Unix/macOS:**
+
 ```
 Before starting any service:
 1. Kill existing instances: pkill -f "<service-pattern>" 2>/dev/null || true
@@ -115,6 +118,7 @@ After tests complete:
 ```
 
 **Windows:**
+
 ```
 Before starting any service:
 1. Kill existing instances: taskkill /F /IM "<process-name>" 2>nul || echo "No existing process"
@@ -138,6 +142,7 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 **NEEDS_CONTEXT:** The implementer needs information that wasn't provided. Provide the missing context and re-dispatch.
 
 **BLOCKED:** The implementer cannot complete the task. Assess the blocker:
+
 1. If it's a context problem, provide more context and re-dispatch with the same model.
 2. If the task requires more reasoning, re-dispatch with a more capable model.
 3. If the task is too large, break it into smaller pieces.
@@ -157,6 +162,7 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 ## Context Isolation
 
 Never forward parent session context or history to subagents. Construct each subagent's prompt from scratch using only:
+
 - Task text
 - Acceptance criteria
 - Needed file paths
@@ -176,17 +182,18 @@ Subagents can discover superpowers-optimized skills via filesystem access and in
 
 Choose model based on task type when dispatching subagents via the Agent tool:
 
-| Model | Use for |
-|---|---|
-| `haiku` | File reads, summarization, log scanning, patch verification — output is data, not decisions |
-| `sonnet` | Default for all implementation tasks |
-| `opus` | Architecture analysis, complex spec review, multi-system debugging, any task requiring reasoning across many constraints at once |
+| Model    | Use for                                                                                                                          |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `haiku`  | File reads, summarization, log scanning, patch verification — output is data, not decisions                                      |
+| `sonnet` | Default for all implementation tasks                                                                                             |
+| `opus`   | Architecture analysis, complex spec review, multi-system debugging, any task requiring reasoning across many constraints at once |
 
-Apply via the `model` parameter in Agent tool calls. Default to `sonnet` when uncertain. Only upgrade to `opus` when the task is genuinely reasoning-heavy — not just large.
+Apply via the `model` parameter in Agent tool calls. Default to `sonnet` when uncertain. Only upgrade to `opus` when the task is genuinely reasoning-heavy — not just large. Always announce the model used before starting the task.
 
 ## Prompt Templates
 
 Use:
+
 - `./implementer-prompt.md`
 - `./spec-reviewer-prompt.md`
 - `./code-quality-reviewer-prompt.md`
