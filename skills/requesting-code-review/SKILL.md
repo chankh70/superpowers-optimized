@@ -15,7 +15,7 @@ Request review early to catch issues before they spread.
 
 ## When
 
-- After completing a plan task or batch
+- After completing a plan or batch
 - After major refactor/feature work
 - Before merge or PR finalization
 
@@ -24,7 +24,7 @@ Request review early to catch issues before they spread.
 1. Determine review range (`BASE_SHA` -> `HEAD_SHA`).
 2. Check for `context-snapshot.json` at the project root:
    - If present: run `git rev-parse HEAD` and compare to `git_hash` in the file.
-     - **Hashes match (fresh):** use `changed_files` and `blast_radius` as the review scope. Inject this summary into the code-reviewer prompt: *"Changed files: [list]. Also referenced by: [blast_radius callers]."*
+     - **Hashes match (fresh):** use `changed_files` and `blast_radius` as the review scope. Inject this summary into the code-reviewer prompt: _"Changed files: [list]. Also referenced by: [blast_radius callers]."_
      - **Hashes differ (stale):** note the snapshot is from a previous commit; use `changed_files` as a starting point but do not rely on `blast_radius`.
    - If absent: determine scope from `git diff --name-only BASE_SHA..HEAD_SHA` directly.
 3. Dispatch `superpowers-optimized:code-reviewer` using `requesting-code-review/code-reviewer.md`.
@@ -40,6 +40,7 @@ Request review early to catch issues before they spread.
 When changes touch security-relevant areas, the code review **must** include a security pass. This is not a separate step — it's part of every review where applicable.
 
 **Triggers automatically when changes touch:**
+
 - Authentication or authorization flows
 - Input validation or output encoding
 - API endpoints handling user data
@@ -48,6 +49,7 @@ When changes touch security-relevant areas, the code review **must** include a s
 - Infrastructure, deployment, or CI/CD configs
 
 **Security checklist:**
+
 - OWASP Top 10 and CWE vulnerability scan
 - OWASP API Security Top 10: broken object/function-level authorization, unrestricted resource consumption, SSRF, mass assignment, improper inventory management
 - Input validation and injection risk (SQL, XSS, CSRF, command injection)
@@ -58,6 +60,7 @@ When changes touch security-relevant areas, the code review **must** include a s
 - Logging hygiene (no secrets in logs, adequate audit trail)
 
 **Severity enforcement:**
+
 - Critical/High security findings **block merge** until addressed or the user explicitly accepts the risk with documented rationale.
 - Medium security findings should be fixed before merge unless explicitly deferred.
 
@@ -66,6 +69,7 @@ When changes touch security-relevant areas, the code review **must** include a s
 For changes involving complex logic, concurrency, state management, or critical data paths, dispatch `superpowers-optimized:red-team` in parallel with the code reviewer.
 
 **Triggers when changes touch:**
+
 - State machines or multi-step workflows
 - Concurrent access to shared resources
 - Complex business logic with branching conditions
@@ -91,10 +95,12 @@ When the red team report contains Critical or High findings, run the auto-fix pi
 6. **Repeat** from step 2 until no Critical or High findings remain.
 
 **After the loop completes:**
+
 - Run the full test suite one final time to confirm no regressions across all fixes.
 - Report: findings fixed, false positives skipped, any regressions introduced and resolved.
 
 **Skip conditions:**
+
 - If the red team report has zero Critical/High findings, skip the pipeline entirely.
 - Medium findings are tracked for later, not auto-fixed.
 - If the user explicitly says to skip auto-fix, respect that.

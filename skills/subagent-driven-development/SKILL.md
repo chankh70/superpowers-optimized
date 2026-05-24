@@ -27,9 +27,6 @@ digraph sdd_process {
         "Implementer asks questions?" [shape=diamond];
         "Answer questions, provide context" [shape=box];
         "Implementer implements, tests, self-reviews" [shape=box];
-        "Dispatch spec reviewer subagent" [shape=box];
-        "Spec compliant?" [shape=diamond];
-        "Implementer fixes spec gaps" [shape=box];
         "Dispatch code quality reviewer" [shape=box];
         "Quality approved?" [shape=diamond];
         "Implementer fixes quality issues" [shape=box];
@@ -46,11 +43,7 @@ digraph sdd_process {
     "Implementer asks questions?" -> "Answer questions, provide context" [label="yes"];
     "Answer questions, provide context" -> "Dispatch implementer subagent";
     "Implementer asks questions?" -> "Implementer implements, tests, self-reviews" [label="no"];
-    "Implementer implements, tests, self-reviews" -> "Dispatch spec reviewer subagent";
-    "Dispatch spec reviewer subagent" -> "Spec compliant?";
-    "Spec compliant?" -> "Implementer fixes spec gaps" [label="no"];
-    "Implementer fixes spec gaps" -> "Dispatch spec reviewer subagent" [label="re-review"];
-    "Spec compliant?" -> "Dispatch code quality reviewer" [label="yes"];
+    "Implementer implements, tests, self-reviews" -> "Dispatch code quality reviewer";
     "Dispatch code quality reviewer" -> "Quality approved?";
     "Quality approved?" -> "Implementer fixes quality issues" [label="no"];
     "Implementer fixes quality issues" -> "Dispatch code quality reviewer" [label="re-review"];
@@ -69,8 +62,6 @@ digraph sdd_process {
 - Dispatch implementer subagent with full task text and minimal required context.
 - Resolve implementer questions before coding.
 - Require implementer verification evidence.
-- Run spec-compliance review.
-- If spec fails, return to implementer and re-review.
 - Run code-quality review.
 - If quality fails, return to implementer and re-review.
 - Mark task complete: update the task’s checkbox in plan.md from `- [ ]` to `- [x]`. If `state.md` exists with a plan status section, update it to reflect the completed task.
@@ -154,7 +145,6 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 ## Hard Rules
 
 - Do not execute implementation on `main`/`master` without explicit user permission.
-- Do not skip spec review.
 - Do not skip quality review.
 - Do not accept unresolved review findings.
 - Do not ask subagents to read long plan files when task text can be passed directly.
@@ -195,7 +185,6 @@ Apply via the `model` parameter in Agent tool calls. Default to `sonnet` when un
 Use:
 
 - `./implementer-prompt.md`
-- `./spec-reviewer-prompt.md`
 - `./code-quality-reviewer-prompt.md`
 
 ## Integration

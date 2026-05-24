@@ -41,30 +41,38 @@ digraph executing_plans {
 ```
 
 ### Step 1: Load and Review Plan
+
 1. Read the plan completely.
 2. Review critically — identify any questions or concerns.
 3. If concerns: raise them with the user before starting.
 4. If no concerns: create task tracking and proceed.
 
 ### Step 2: Set Up Workspace
+
 If working on main/master branch AND the plan involves code changes:
+
 - Set up isolated workspace via `using-git-worktrees`.
 
 If already on a feature branch, or the plan is documentation/config only:
+
 - Skip worktree setup. Confirm with user that the current branch is appropriate.
 
 ### Step 3: Execute Tasks
+
 For each task:
+
 1. Follow each step exactly (plan has bite-sized steps with checkboxes).
-2. Run verifications as specified.
-3. Mark task complete.
-4. For tasks involving UI/UX or frontend implementation, apply guidance from `frontend-design`.
+2. **Surgical changes only:** match existing style, remove any imports/variables/functions your changes made unused, and don't refactor adjacent code
+3. Run verifications as specified.
+4. Mark task complete.
+5. For tasks involving UI/UX or frontend implementation, apply guidance from `frontend-design`.
 
 **Note:** Superpowers works significantly better with subagent support. If subagents are available, use `subagent-driven-development` instead — the quality of work will be higher with fresh-context-per-task and two-stage review gates.
 
 ## Engineering Rigor for Complex Tasks
 
 When a task is architectural, high-risk, or touches cross-module boundaries:
+
 - Validate the approach against requirements and constraints before coding.
 - Identify edge cases and error paths specific to this task.
 - Consider simpler architectures or alternative approaches.
@@ -79,6 +87,7 @@ When a task is architectural, high-risk, or touches cross-module boundaries:
 - Do not claim completion without fresh command output.
 
 **Stop immediately and ask for clarification — never guess — when:**
+
 - A dependency is missing or unavailable.
 - The plan has a critical gap that prevents starting.
 - An instruction is unclear or contradictory.
@@ -87,6 +96,7 @@ When a task is architectural, high-risk, or touches cross-module boundaries:
 ## Context Hygiene
 
 For each task, keep only:
+
 - Current task details
 - Constraints
 - Relevant prior decisions
@@ -97,5 +107,6 @@ Do not carry long historical summaries. Never forward full session history to su
 ## Completion
 
 After all tasks pass verification:
+
 1. Announce `finishing-a-development-branch`.
 2. Invoke `finishing-a-development-branch`.

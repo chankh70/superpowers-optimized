@@ -33,7 +33,7 @@ Every project goes through this process. A todo list, a single-function utility,
 8. **Before approving the design — failure-mode check:** State the top 2-3 ways the chosen approach could fail or not cover all cases. This is adversarial reasoning, not a list of known assumptions — actively try to break the design. For each failure mode found, assess severity:
    - **Critical** (design fails for a significant user scenario): revise the design before proceeding.
    - **Minor** (edge case, acceptable limitation): document as a non-goal in the design.
-   Do not skip this step. An approach that survives adversarial questioning is an approach worth approving.
+     Do not skip this step. An approach that survives adversarial questioning is an approach worth approving.
 9. Save approved design to `docs/specs/YYYY-MM-DD-<topic>-design.md`.
 10. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see Spec Self-Review below). Fix issues inline; no subagent dispatch needed.
 11. **User reviews written spec** — ask user to review the spec file before proceeding (see User Review Gate below).
@@ -90,7 +90,7 @@ Fix any issues inline. No need to re-review — just fix and move on.
 
 After the spec self-review passes, ask the user to review the written spec before proceeding:
 
-> "Spec written and committed to `<path>`. Please review it and let me know if you want to make any changes before we start writing out the implementation plan."
+> "Spec written and saved to `<path>`. Please review it and let me know if you want to make any changes before we start writing out the implementation plan."
 
 Wait for the user's response. If they request changes, make them and re-run the self-review. Only proceed once the user approves.
 
@@ -103,6 +103,7 @@ Wait for the user's response. If they request changes, make them and re-run the 
 ## Design Contents
 
 Include:
+
 - Scope and non-goals
 - Architecture and data flow
 - Interfaces/contracts
@@ -113,6 +114,7 @@ Include:
 ## Engineering Rigor
 
 Apply senior engineering judgment during design:
+
 - Verify requirements are complete and unambiguous before designing.
 - Identify edge cases, error paths, and cross-platform concerns early.
 - Evaluate trade-offs explicitly (performance vs. readability, flexibility vs. simplicity).
