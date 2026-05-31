@@ -26,7 +26,12 @@ Every project goes through this process. A todo list, a single-function utility,
 1. Inspect project context (relevant files, docs, recent commits).
 2. Assess scope: if the project touches 4+ independent subsystems or would require 20+ implementation tasks, decompose into sub-projects. Design each sub-project as a separate spec. Present the decomposition to the user for approval before designing individual specs.
 3. Ask all clarifying questions together in a single turn. Use multiple-choice format where possible to reduce round trips.
-4. Propose 2-3 approaches with trade-offs and a recommendation.
+4. Propose 2-3 different approaches with trade-offs and a recommendation. Compare in detail, recommend with reasoning tied to the comparison. If your recommendation would flip under deeper questioning, the comparison wasn't deep enough — that's the bug. For each option, address:
+   - **What it assumes**
+   - **Where it breaks down**
+   - **What would rule it out**
+   - **What evidence supports it**
+     Compare across those, then lead with your recommendation and tie it to the comparison, not to gut feel. Skip a dimension only if it doesn't apply — not to save effort.
 5. Present design in short sections; confirm each section.
 6. For existing codebases: study existing patterns before proposing new ones. Match the project's conventions unless there's a compelling reason to diverge. Design for isolation — prefer changes that minimize blast radius and don't require coordinating across many files.
 7. If the repo lacks `CLAUDE.md` / `AGENTS.md` and long-term collaboration is expected, consider using `claude-md-creator` to create a minimal, high-signal context file.

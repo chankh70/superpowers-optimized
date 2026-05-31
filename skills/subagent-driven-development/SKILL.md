@@ -27,9 +27,9 @@ digraph sdd_process {
         "Implementer asks questions?" [shape=diamond];
         "Answer questions, provide context" [shape=box];
         "Implementer implements, tests, self-reviews" [shape=box];
-        "Dispatch code quality reviewer" [shape=box];
-        "Quality approved?" [shape=diamond];
-        "Implementer fixes quality issues" [shape=box];
+        "Dispatch spec reviewer subagent" [shape=box];
+        "Spec compliant?" [shape=diamond];
+        "Implementer fixes spec gaps" [shape=box]
         "Mark task complete" [shape=box];
     }
 
@@ -43,11 +43,11 @@ digraph sdd_process {
     "Implementer asks questions?" -> "Answer questions, provide context" [label="yes"];
     "Answer questions, provide context" -> "Dispatch implementer subagent";
     "Implementer asks questions?" -> "Implementer implements, tests, self-reviews" [label="no"];
-    "Implementer implements, tests, self-reviews" -> "Dispatch code quality reviewer";
-    "Dispatch code quality reviewer" -> "Quality approved?";
-    "Quality approved?" -> "Implementer fixes quality issues" [label="no"];
-    "Implementer fixes quality issues" -> "Dispatch code quality reviewer" [label="re-review"];
-    "Quality approved?" -> "Mark task complete" [label="yes"];
+    "Implementer implements, tests, self-reviews" -> "Dispatch spec reviewer subagent";
+    "Dispatch spec reviewer subagent" -> "Spec compliant?";
+    "Spec compliant?" -> "Implementer fixes spec gaps" [label="no"];
+    "Implementer fixes spec gaps" -> "Dispatch spec reviewer subagent" [label="re-review"];
+    "Spec compliant?" -> "Mark task complete" [label="yes"];
     "Mark task complete" -> "More tasks?";
     "More tasks?" -> "Dispatch implementer subagent" [label="yes"];
     "More tasks?" -> "Final whole-branch review" [label="no"];
@@ -62,8 +62,6 @@ digraph sdd_process {
 - Dispatch implementer subagent with full task text and minimal required context.
 - Resolve implementer questions before coding.
 - Require implementer verification evidence.
-- Run code-quality review.
-- If quality fails, return to implementer and re-review.
 - Mark task complete: update the task’s checkbox in plan.md from `- [ ]` to `- [x]`. If `state.md` exists with a plan status section, update it to reflect the completed task.
   - For complex or high-risk tasks, validate the approach against requirements and consider simpler alternatives before or after the implementer’s work.
   - For tasks centered on frontend/UI, apply `frontend-design` standards to guide structure, styling, and accessibility.
@@ -79,7 +77,7 @@ When tasks are independent and touch disjoint files, dispatch them as a wave —
 
 1. Build a wave of independent tasks.
 2. Dispatch all implementers in a **single message** with multiple parallel Agent tool calls. Do not stagger across multiple messages.
-3. Review each task with the same two-stage gate.
+3. Review each task with the same one-stage gate.
 4. Run integration verification after the wave completes.
 5. Update all completed task checkboxes in plan.md (`- [ ]` → `- [x]`) and sync state.md if present.
 6. Proceed to the next wave.
