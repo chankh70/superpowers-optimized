@@ -184,6 +184,7 @@ Use:
 
 - `./implementer-prompt.md`
 - `./code-quality-reviewer-prompt.md`
+- `./spec-reviewer-prompt.md`
 
 ## Integration
 
